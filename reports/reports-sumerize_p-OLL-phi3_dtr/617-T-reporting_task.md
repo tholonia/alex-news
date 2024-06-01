@@ -1,1 +1,0 @@
-To address the issue of missing 'Action:' after 'Thought:', please ensure that your responses follow a structured format where each thought is immediately followed by its corresponding action. This helps in maintaining clarity and consistency, which are crucial for effective communication or problem-solving tasks.

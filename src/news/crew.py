@@ -1,91 +1,86 @@
 #!/bin/env python
-
+#~~ get env vars first
 from dotenv import load_dotenv
 load_dotenv("/home/jw/src/crewai/anews/.env",override=True)
 
+#~~ python imports
 import os
 import datetime
 # from getpass import getpass
+
+#~~ AI related imports
 from crewai import Agent, Task, Crew, Process
 from langchain_openai import ChatOpenAI
-from textwrap import dedent
+from crewai_tools import (SerperDevTool, FileReadTool)
+from crewai.project import (CrewBase, agent, crew, task)
 
-# ↑ uncomment to use OpenAI's API
-# from langchain_groq import ChatGroq
-# ↑ uncomment to use Groq's API
-# from langchain_anthropic import ChatAnthropic
-# ↑ uncomment to use Antrhopic's API
-# from langchain_community.chat_models import ChatCohere
-# ↑ uncomment to use ChatCohere API
-# os.environ["SERPER_API_KEY"] = os.environ['xOPENAI_API_KEY']
-# ↑ uncomment to use OpenAI's API
-# os.environ["GROQ_API_KEY"] = getpass("Enter GROQ_API_KEY: ")
-# ↑ uncomment to use Groq's API
-# os.environ["ANTHROPIC_API_KEY"] = getpass("Enter ANTHROPIC_API_KEY: ")
-# ↑ uncomment to use Anthropic's API
-# os.environ["COHERE_API_KEY"] = getpass("Enter COHERE_API_KEY: ")
-# ↑ uncomment to use Cohere's API
-
-# Check if the 'output-files' directory exists, and create it if it doesn't
+#~~ local lib imports
+from src.news.lib.utils import (get_llm, gget, is_verbose)
+from src.news.lib.tracing import (on_task_completion, on_agent_completion)
+ 
+# Check if the 'reports' directory exists, and create it if it doesn't
 if not os.path.exists('reports'):
     os.makedirs('reports')
      
 
-# @title 🔑 Input **Serper** API Key by running this cell
+#~~ create filenames
+topic_stub=gget('topic')[:10].replace(" ", "-")
+report_subdir = f"reports/reports-{topic_stub}-{gget('server')[:3]}-{gget('LIVE_MODEL_NAME')}"
 
-from crewai_tools import SerperDevTool
-
-from crewai.project import (
-    CrewBase,
-    agent,
-    crew,
-    task,
-
-)
-# Instantiate tools
-
-# Set the SERPER_API_KEY environment variable by prompting the user to enter the key
-# The Serper API key is required to use the Serper search tool (https://serper.dev)
-# os.environ["SERPER_API_KEY"] = '46xxxx2ab'
-
-
-# Create an instance of the SerperDevTool class
-# This tool allows performing searches using the Serper API
+#~~ Instantiate tools
 search_tool = SerperDevTool()
-     
+# file_read_tool = FileReadTool(file_path= gget("inputfile"))
+# web_search_tool = WebsiteSearchTool(website="HTTPS://google.com")
+# web_rag_tool = RagTool     
 
-# @title 🕵🏻 Define your agents
+#~~ instantiate the LLM 
+llm_server_1 = get_llm()
 
-# Agent Definitions
 
+#~~ define Crew class
 @CrewBase
 class AnewsCrew():
     """News Crew"""
-    agents_config = "config/agents.yaml"
-    tasks_config = "config/tasks.yaml"
+    agents_config = "config/" + gget('agents_yaml')
+    tasks_config = f"config/" + gget('tasks_yaml')
 
     @agent
     def agent_1(self) -> Agent:
+        stub = "agent_1"
         return Agent(
             config=self.agents_config['agent_1'],
             tools=[search_tool],
-            llm=ChatOpenAI(model_name="gpt-4", temperature=0.8)
+            llm=llm_server_1,
+            output_file=f"{report_subdir}/{gget('COUNTER')}-{stub}.md",
+            verbose=is_verbose(gget("verbose")),
+            allow_delegation=bool(int(gget("delegation"))),
+            callback=on_agent_completion(name=stub),            
         )
 
     @agent
     def agent_2(self) -> Agent:        
+        stub = "agent_2"
         return Agent(
             config=self.agents_config['agent_2'],
             tools=[search_tool],
-            llm=ChatOpenAI(model_name="gpt-4", temperature=0.8)
+            llm=llm_server_1,
+            output_file=f"{report_subdir}/{gget('COUNTER')}-{stub}.md",
+            verbose=is_verbose(gget("verbose")),
+            allow_delegation=bool(int(gget("delegation"))),
+            callback=on_agent_completion(name=stub),
         )
   
     @agent
     def agent_3(self) -> Agent:
+        stub = "agent_3"
         return Agent(
             config=self.agents_config['agent_3'],
             tools=[search_tool],
-            llm=ChatOpenAI(model_name="gpt-4", temperature=0.8)
+            llm=llm_server_1,
+            output_file=f"{report_subdir}/{gget('COUNTER')}-{stub}.md",
+            verbose=is_verbose(gget("verbose")),
+            allow_delegation=bool(int(gget("delegation"))),
+            callback=on_agent_completion(name=stub),
         )
             
 
@@ -94,25 +89,31 @@ class AnewsCrew():
 
     @task
     def task_1(self) -> Task:
+        stub = "task_1"
         return Task(
             config=self.tasks_config['task_1'],
-            # agent=self.agent_1(),
+            agent=self.agent_1(),
+            output_file=f"{report_subdir}/{gget('COUNTER')}-{stub}.md",
+            callback=on_task_completion(name=stub),            
         )
     @task
     def task_2(self) -> Task:
+        stub = "task_2"
         return Task(
             config=self.tasks_config['task_1'],
-            # agent=self.agent_2(),
+            agent=self.agent_2(),
+            output_file=f"{report_subdir}/{gget('COUNTER')}-{stub}.md",
+            callback=on_task_completion(name=stub),
         )
     @task
     def task_3(self) -> Task:
+        stub = "task_3"
         return Task(
             config=self.tasks_config['task_1'],
-            # agent=self.agent_3(),
+            agent=self.agent_3(),
+            output_file=f"{report_subdir}/{gget('COUNTER')}-{stub}.md",
+            callback=on_task_completion(name=stub),
         )
-        
-
-
 
     # @title 🚀 Get your crew to work!
     @crew

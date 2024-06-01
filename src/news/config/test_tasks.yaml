@@ -11,8 +11,6 @@ task_1:
   expected_output: |
     A detailed description of what the task's completion looks like.
   verbose: True
-  output_file: reports/x.md
-  agent: self.agent_1()
   
 
 task_2:
@@ -27,9 +25,7 @@ task_2:
   expected_output: |
     A detailed description of what the task's completion looks like.
   verbose: True
-  output_file: reports/x.md
-  agent: self.agent_2()
-
+  
 task_3:
   description: |
     "
@@ -42,6 +38,4 @@ task_3:
   expected_output: |
     A detailed description of what the task's completion looks like.
   verbose: True
-  output_file: reports/x.md
-  agent: self.agent_3()
-
+  

@@ -1,1 +1,0 @@
-To find academic papers published between January 1, 2 market research
