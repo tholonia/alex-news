@@ -96,19 +96,19 @@ class AnewsCrew():
     def task_1(self) -> Task:
         return Task(
             config=self.tasks_config['task_1'],
-            agent=self.agent_1(),
+            # agent=self.agent_1(),
         )
     @task
     def task_2(self) -> Task:
         return Task(
             config=self.tasks_config['task_1'],
-            agent=self.agent_2(),
+            # agent=self.agent_2(),
         )
     @task
     def task_3(self) -> Task:
         return Task(
             config=self.tasks_config['task_1'],
-            agent=self.agent_3(),
+            # agent=self.agent_3(),
         )
         
 
