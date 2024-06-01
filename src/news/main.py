@@ -62,7 +62,10 @@ for opt, arg in opts:
         elif opt in ("-p", "--prefix"): #otherwise use expliciet -p arg
             arg = arg.replace("'","")
             gput("prefix", arg)
-            
+    elif opt in ("-p", "--prefix"): #otherwise use expliciet -p arg
+        arg = arg.replace("'","")
+        gput("prefix", arg)
+        
     if opt in ("-h", "--help"):       showhelp()
     elif opt in ("-m", "--memory"):     gput("memory", int(arg))
     elif opt in ("-d", "--delegation"): gput("delegation", int(arg))
@@ -91,7 +94,7 @@ gput("agents_yaml", agents_yaml)
 gput("tasks_yaml", tasks_yaml)
 
 
-# If there is IS a specified inputfile AND no topic specified, make the topic the name inputfile name
+# If there IS a specified inputfile AND no topic specified, make the topic the name inputfile name
 if gget("inputfile") != "None" and (gget("topic") == "None" or gget("topic") == ""): 
     gput("topic",gget("inputfile")) # Defaults to Serperinput  
     
@@ -105,7 +108,7 @@ def run():
     inputs and measures the runtime.
     """
     printstats("before")
-    
+    input()
     inputs = {
     "var_1": "bitcoin",
     "var_2": "news",

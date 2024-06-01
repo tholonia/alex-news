@@ -10,6 +10,29 @@ from datetime import datetime
 import datetime as fubared_datetime # python's datetime functions are very badly designed (see note in code)
 
 
+import yaml
+
+def check_top_level_key(file_path, key):
+    """
+    Opens a YAML file, checks for the existence of a top-level key, and returns True or False.
+    
+    Parameters:
+        file_path (str): The path to the YAML file.
+        key (str): The top-level key to check for.
+        
+    Returns:
+        bool: True if the key exists, False otherwise.
+    """
+    try:
+        with open(file_path, 'r') as file:
+            data = yaml.safe_load(file)
+            return key in data
+    except FileNotFoundError:
+        print(f"File not found: {file_path}")
+        return False
+    except yaml.YAMLError as e:
+        print(f"Error reading YAML file: {e}")
+        return False
 
 
 def get_llm():
