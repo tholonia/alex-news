@@ -12,6 +12,33 @@ import datetime as fubared_datetime # python's datetime functions are very badly
 
 import yaml
 
+def filecounter():
+    """
+    This function increments the file counter and returns it in a 3-digit string.
+    """
+    fci = int(gget("filecounter"))+ 1
+    fcs = f"{fci:03d}"
+    gput(f"filecounter",fcs)
+    return fcs
+
+def seconds_elapsed_today(**kwargs):
+    """
+    The function `seconds_elapsed_today` calculates the number of seconds elapsed since midnight today,
+    with an option to return the result as a padded string.
+    :return: The `seconds_elapsed_today` function returns the number of seconds elapsed since midnight
+    today. If the `padded` keyword argument is set to `True`, the function returns the number of seconds
+    elapsed with zero-padding to ensure a 5-digit output.
+    """
+    import datetime as insanely_stupid_module
+    padded = tryit(kwargs,"padded",False)
+    now = insanely_stupid_module.datetime.now()
+    midnight = insanely_stupid_module.datetime.combine(now.date(), insanely_stupid_module.time())
+    seconds_elapsed = (now - midnight).seconds
+    if padded:
+        return f"{seconds_elapsed:05d}"
+    else:
+        return seconds_elapsed
+
 def check_top_level_key(file_path, key):
     """
     Opens a YAML file, checks for the existence of a top-level key, and returns True or False.
@@ -35,16 +62,17 @@ def check_top_level_key(file_path, key):
         return False
 
 
-def get_llm():
+def get_llm(**kwargs):
+    temperature = tryit(kwargs,"temperature",0.3)
     from langchain_openai import ChatOpenAI as OpenAI
 
     llm_server = OpenAI(
         openai_api_base=gget("LIVE_API_BASE_URL"),
         openai_api_key=gget("LIVE_API_KEY"),
         model=gget("LIVE_MODEL_NAME"),
-        temperature=0.3,
+        temperature=temperature,
         verbose=is_verbose(gget("verbose")),
-        max_tokens=4096,  # gpt-3.5 max_tokens = 4096
+        # max_tokens=4096,  # gpt-3.5 max_tokens = 4096
     )
     return llm_server
 
@@ -138,6 +166,8 @@ def printstats(stage):
     │             Date Range: {gget("start_date")} - {gget("end_date")}
     │           Agent config: {gget("agents_yaml")}
     │            Task config: {gget("tasks_yaml")}
+    │        Agent #1 output: {gget("agent_1_outputfile")}
+    │         Task #1 output: {gget("task_1_outputfile")}
     └────────────────────────────────────────────────────────────
     """
      

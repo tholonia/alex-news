@@ -17,6 +17,7 @@ from src.news.lib.utils import (
     showhelp,
     printstats,
     test_prefix,
+
 )
 
 from src.news.lib.setserver import set_server
@@ -29,7 +30,8 @@ from src.news.lib.setserver import set_server
 
 
 #~~ Initialize vars to defaults
-start_date, end_date = getdates("100 years ago:today") or (0, 0)
+# start_date, end_date = getdates("100 years ago:today") or (0, 0)
+start_date, end_date = getdates("1 months ago:today") or (0, 0)
 gput('start_date', start_date)  # Defaults to 100 years ago
 gput('end_date', end_date)  # Defaults to today
 gput('searcher', 'SER')  # Defaults to Serper
@@ -39,6 +41,11 @@ gput("topic","None") #%% TODO
 gput("agents_yaml","agents.yaml") 
 gput("tasks_yaml","tasks.yaml") 
 gput("prefix","test") 
+gput("topic","bitcoin") 
+gput("filecounter","000") 
+gput("task_1_outputfile","undefined")
+gput("agent_1_outputfile","undefined")
+
 
 
 #~~ Parse command-line arguments provided
@@ -55,16 +62,16 @@ for opt, arg in opts:
     """_summary_
     Test to see if 'topic' can be used as a prefix, if not defer to the -p, --prefix argument'
     """
-    if opt in ("-t", "--topic"):
-        gput("topic", arg)
-        if test_prefix(arg):
-            gput("prefix", arg)  # set prefix of there is a match   
-        elif opt in ("-p", "--prefix"): #otherwise use expliciet -p arg
-            arg = arg.replace("'","")
-            gput("prefix", arg)
-    elif opt in ("-p", "--prefix"): #otherwise use expliciet -p arg
-        arg = arg.replace("'","")
-        gput("prefix", arg)
+    if opt in ("-t", "--topic"):        # if topic is provided...
+        gput("topic", arg)                  # set topic to arg    
+        if test_prefix(arg):                # if topic matches a prefix...
+            gput("prefix", arg)                 # set prefix = topic   
+        elif opt in ("-p", "--prefix"):     # otherwise, if there is a prefix already provided...
+            arg = arg.replace("'","")           # clean it...
+            gput("prefix", arg)                 # set prefix = topic
+    elif opt in ("-p", "--prefix"):     # Otherwise if there is a prefix already provided...
+        arg = arg.replace("'","")            # clean
+        gput("prefix", arg)                  # set prefix = prefix
         
     if opt in ("-h", "--help"):       showhelp()
     elif opt in ("-m", "--memory"):     gput("memory", int(arg))
@@ -108,11 +115,13 @@ def run():
     inputs and measures the runtime.
     """
     printstats("before")
-    input()
+    input("Enter to continue (^C to break)")
     inputs = {
-    "var_1": "bitcoin",
-    "var_2": "news",
-    "var_3": "March, 2024"
+        "topic": gget("topic"),
+        # "var_2": "news",
+        # "var_3": "March, 2024",
+        "start_date": start_date,
+        "end_date": end_date,
     }
 
     start_timer = time.time()

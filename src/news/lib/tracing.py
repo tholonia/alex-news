@@ -72,16 +72,51 @@ def task_tracer(before_func=None, after_func=None, **kwargs):
     
 """
     
-def on_task_completion(*args,**kwargs):
+# def on_task_completion(obj,**kwargs):
+def on_task_completion(output):
+    print(Fore.BLACK+Back.GREEN)
+    print(output)
+    print(Fore.RESET+Back.RESET)
+    return()
+    import json
     print(Fore.BLACK+Back.GREEN)
     name = tryit(kwargs,"name","none")
     print(f"├─  {name} has finished  ─┤")
 
+    print(">>> kwargs:")
+    pprint(kwargs)
+    print(json.dumps(obj.__dict__,indent=4))
+
     print(Fore.RESET+Back.RESET)
 
-def on_agent_completion(*args, **kwargs):
-    print(Fore.GREEN+Back.RED)
-    name = tryit(kwargs,"name","none")
-    print(f"├─  {name} has finished  ─┤")
-    # print(f"│  {agent_result}")
-    print(Fore.RESET+Back.RESET)
+# Define callback functions
+
+# TASKS
+def on_task_start(task):
+    print(Back.YELLOW+f"Task {task.description} has started."+Back.RESET)
+
+def on_task_complete(task, result):
+    print(Back.MAGENTA+f"Task {task.description} completed.")
+    print(f"Output: {result}"+Back.RESET)
+
+def on_task_error(task, error):
+    print(Back.CYAN+f"Task {task.description} encountered an error: {error}"+Back.RESET)
+
+def on_task_progress(task, progress):
+    print(Back.GREEN+f"Task {task.description} progress: {progress}"+Back.RESET) 
+    
+# AGENTS
+def on_agent_start(agent):
+    print(Back.YELLOW+f"Agent {agent.role} has started."+Back.RESET)
+
+def on_agent_complete(agent, result):
+    print(Back.YELLOW+f"Agent {agent.role} completed their task."+Back.RESET)
+    print(f"Output: {result}")
+
+def on_agent_error(agent, error):
+    print(Back.YELLOW+f"Agent {agent.role} encountered an error: {error}"+Back.RESET)
+
+def on_agent_progress(agent, progress):
+    print(Back.YELLOW+f"Agent {agent.role} progress: {progress}"+Back.RESET)
+        
+    
