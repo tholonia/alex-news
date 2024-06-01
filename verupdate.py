@@ -6,15 +6,15 @@ def increment_number_in_file(file_path):
             number = float(file.readline().strip())
         
         # Increment the number by 1/10
-        number += 0.1
+        number += 0.01
         
         # Write the new number back to the file
         with open(file_path, 'w') as file:
             file.write(str(number))
         
-        print(f"The new number {number} has been written to {file_path}")
+        print(number)
     except Exception as e:
-        print(f"An error occurred: {e}")
+        print(f"An error occurred: {e}", file=sys.stderr)
 
 # Example usage
 file_path = "./.version"
