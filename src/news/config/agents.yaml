@@ -1,0 +1,35 @@
+agent_1:
+  role: |
+    Defines the agent's function within the crew. It determines the kind of tasks the agent is best suited for.
+  goal: |
+    The individual objective that the agent aims to achieve. It guides the agent's decision-making process.
+  backstory: |
+    Provides context to the agent's role and goal, enriching the interaction and collaboration dynamics.
+  allow_delegation: False
+  verbose: True
+  max_iter: 3
+  max_rpm: 100 # This is the maximum number of requests per minute that the agent can make to the language model
+  
+agent_2:
+  role: |
+    Defines the agent's function within the crew. It determines the kind of tasks the agent is best suited for.
+  backstory: |
+    Provides context to the agent's role and goal, enriching the interaction and collaboration dynamics.
+  goal: |
+    The individual objective that the agent aims to achieve. It guides the agent's decision-making process.
+  allow_delegation: False
+  verbose: True
+  max_iter: 3
+  max_rpm: 100
+
+agent_3:
+  role: |
+    Defines the agent's function within the crew. It determines the kind of tasks the agent is best suited for.
+  backstory: |
+    Provides context to the agent's role and goal, enriching the interaction and collaboration dynamics.
+  goal: |
+    The individual objective that the agent aims to achieve. It guides the agent's decision-making process.
+  allow_delegation: False
+  verbose: True
+  max_iter: 3
+  max_rpm: 100

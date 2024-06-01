@@ -1,0 +1,44 @@
+---
+task_1:
+  description: | 
+    "
+    A clear, concise statement of what the task entails.
+    VARIABLE 1: "{var_1}"
+    VARIABLE 2: "{var_2}"
+    VARIABLE 3: "{var_3}"
+    Add more variables if needed...
+    "
+  expected_output: |
+    A detailed description of what the task's completion looks like.
+  verbose: True
+  output_file: reports/x.md
+  
+
+task_2:
+  description: |
+    "
+    A clear, concise statement of what the task entails.
+    VARIABLE 1: "{var_1}"
+    VARIABLE 2: "{var_2}"
+    VARIABLE 3: "{var_3}"
+    Add more variables if needed...
+    "
+  expected_output: |
+    A detailed description of what the task's completion looks like.
+  verbose: True
+  output_file: reports/x.md
+
+task_3:
+  description: |
+    "
+    A clear, concise statement of what the task entails.
+    VARIABLE 1: "{var_1}"
+    VARIABLE 2: "{var_2}"
+    VARIABLE 3: "{var_3}"
+    Add more variables if needed...
+    "
+  expected_output: |
+    A detailed description of what the task's completion looks like.
+  verbose: True
+  output_file: reports/x.md
+
