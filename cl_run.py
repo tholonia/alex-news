@@ -14,17 +14,21 @@ main.run()
 # Example of a straight commandline run that does not use 'poetry'.
 # To run in poetry, replace `./cl_run.py` with `poetry run news`.
 
+ 
+./cl_run.py  --prefix news --topic 'Boeing Airlines' 
 
+default are:
+    --topic         Bitcoin
+    --server        OLLAMA 
+    --searcher      SER 
+    --verbose       2 
+    --memory        1 
+    --delegation    1 
+    --llm           phi3_dtr
+    --daterange     "1 months ago:today"
 
-clear && ./cl_run.py \
-    --topic "sumerize_paper" \
-    --inputfile uploads/short.txt \
-    --server OLLAMA \
-    --searcher DDG \
-    --verbose 2 \
-    --memory 1 \
-    --delegation 1 \
-    --llm phi3_dtr
+unassigned:
+    --inputfile 
 
 
  

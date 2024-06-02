@@ -8,9 +8,12 @@ from importlib.metadata import version
 from dateutil.relativedelta import relativedelta
 from datetime import datetime
 import datetime as fubared_datetime # python's datetime functions are very badly designed (see note in code)
-
-
 import yaml
+
+def make_filenames():
+    topic_stub=gget('topic')[:10].replace(" ", "-")
+    report_subdir = f"reports/reports-{topic_stub}-{gget('server')[:3]}-{gget('LIVE_MODEL_NAME')}"
+    return report_subdir 
 
 def filecounter():
     """

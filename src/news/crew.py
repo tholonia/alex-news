@@ -2,7 +2,6 @@
 #~~ get env vars first
 from dotenv import load_dotenv
 load_dotenv("/home/jw/src/crewai/anews/.env",override=True)
-from colorama import Fore, Back
 import json
 
 #~~ python imports
@@ -10,6 +9,9 @@ import os
 import datetime
 # from getpass import getpass
 from pprint import pprint
+
+#~~ 3rd party imports
+from colorama import Fore, Back
 
 #~~ AI related imports
 from crewai import Agent, Task, Crew, Process
@@ -25,28 +27,29 @@ from src.news.lib.utils import (
     is_verbose,
     check_top_level_key, 
     filecounter, 
+    make_filenames,
 )
-from src.news.lib.tracing import (
-    on_task_completion,
-    on_task_error,
-    on_task_start,
-    on_task_progress,
-    on_task_complete,
-    on_agent_error,
-    on_agent_start,
-    on_agent_progress,
-    on_agent_complete,
-)
+#~~ excluded until callbask is debugded
+# from src.news.lib.tracing import (
+#     on_task_completion,
+#     on_task_error,
+#     on_task_start,
+#     on_task_progress,
+#     on_task_complete,
+#     on_agent_error,
+#     on_agent_start,
+#     on_agent_progress,
+#     on_agent_complete,
+# )
 
 
 # Check if the 'reports' directory exists, and create it if it doesn't
-if not os.path.exists('reports'):
-    os.makedirs('reports')
+# if not os.path.exists('reports'):
+#     os.makedirs('reports')
      
 
-#~~ create filenames
-topic_stub=gget('topic')[:10].replace(" ", "-")
-report_subdir = f"reports/reports-{topic_stub}-{gget('server')[:3]}-{gget('LIVE_MODEL_NAME')}"
+#~~ create filenames agents and tasks to save to
+report_subdir = make_filenames()
 
 #~~ Instantiate tools
 search_tool = SerperDevTool()
@@ -56,7 +59,6 @@ search_tool = SerperDevTool()
 
 #~~ instantiate the LLM 
 llm_server_1 = get_llm(temperature=0.2)
-
 
 #~~ define Crew class
 @CrewBase
@@ -81,7 +83,6 @@ class AnewsCrew():
                 verbose=is_verbose(gget("verbose")),
                 allow_delegation=bool(int(gget("delegation"))),
                 #~~ `callbacks` is BUGGY AS HELL... `callback` works
-               
                 # callbacks={
                 #     "on_start": on_agent_start,
                 #     "on_complete": on_agent_complete,
@@ -218,7 +219,8 @@ class AnewsCrew():
         return Crew(
             agents=self.agents,
             tasks=self.tasks,
-            verbose=2,  # You can set it to 1 or 2 to different logging levels
+            verbose=bool(int(gget("verbose"))),
+            verbose=,  # You can set it to 1 or 2 to different logging levels
             # ↑ indicates the verbosity level for logging during execution.
             process=Process.sequential
             # ↑ the process flow that the crew will follow (e.g., sequential, hierarchical).

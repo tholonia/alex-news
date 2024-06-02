@@ -1,9 +1,20 @@
 ---
 task_1:
   description: | 
-    Search for news articles related to {topic} between {start_date} and {end_date}.
-    Focus on finding articles from reputable sources and summarize the key points.
-    Summarize the key points from each article.
+    Identify the most important point in the news about {topic}.
+    Focus on identifying pros and cons and the overall narrative.
+    Your final report should clearly articulate the key points and arenas of opportunities, and potential risks.
+  expected_output: |
+    A summary of the top 5 news articles found within the date range.
+    Make sure to save the file.
+  verbose: True
+
+task_2:
+  description: | 
+    Compose an insightful article on {topic}.
+    Focus on the key points, write a summary, including any social, cultural, political and econimic and implications.
+    Preserve all source link, including URLs.
+    This article should be easy to understand, engaging, and positive.
   expected_output: |
     A summary of the top 5 news articles found within the date range.
     Make sure to save the file.
@@ -19,5 +30,4 @@ task_1:
         summary
         - links
  
-  verbose: True
-  
+  verbose: True  

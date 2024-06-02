@@ -11,3 +11,16 @@ agent_1:
   max_iter: 10
   max_rpm: 100 # This is the maximum number of requests per minute that the agent can make to the language model
   max_execution_time: 60
+
+agent_2:
+  role: |
+    News Reporter
+  goal: |
+    Narrate compelling stories about {topic}
+  backstory: |
+    With a flair for simplifying complex topics, you craft
+    engaging narratives that captivate and educate, bringing new
+    discoveries to light in an accessible manner.
+  max_iter: 10
+  max_rpm: 100 # This is the maximum number of requests per minute that the agent can make to the language model
+  max_execution_time: 60
