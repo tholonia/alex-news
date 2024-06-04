@@ -1,0 +1,70 @@
+#~~ ══════════════════════════════════════════════════════════════════════════════════════════
+Research_Information:
+  name: Research Information Gathering
+  goal: >
+    To gather the most relevant information on the topic of '{topic}' using various sources available on the internet.
+  description: >
+    The task involves gathering the most current and relevant information on a specified of '{topic}'. This includes identifying and summarizing key findings from reputable sources such as academic journals, industry reports, news articles, and authoritative websites. 
+    The gathered information will be compiled into a structured report, which includes a summary of findings, an annotated bibliography, a presentation of key insights, and any raw data collected.
+    This comprehensive report will then be sent to the Research Manager for review and further processing.  The links, names, and date of websites that contributed any information MUST be preserved and sent to the Research Manager.
+  expected_output:
+    A detailed summary report that covers the main findings on the topic of '{topic}'. 
+    The report should be structured with a title, and an entry of article title, source link, and dates for each entry.
+
+#~~ ══════════════════════════════════════════════════════════════════════════════════════════
+Review_Research:
+  name: Review Research
+  goal: >
+    To review and ensure the accuracy, completeness, and quality of the research reports.
+  description: >
+    The task involves meticulously reviewing the research reports to ensure they are accurate, complete, and of high quality. 
+    This includes checking the validity of the information, verifying sources, and ensuring that the report is logically structured and clearly written. 
+    The Research Manager will provide detailed feedback, corrections for any inaccuracies or omissions, and suggestions for improvement. 
+    This review process is critical to maintaining the integrity and credibility of the research, and it ensures that the final report meets the highest standards before it is formatted for publication.    
+  expected_output: >
+    A thoroughly reviewed and annotated research report. 
+    The report should be checked for accuracy, completeness, and quality, with detailed feedback provided.
+    The report should be structured with a title, an entry of article title, source link, and dates for each entry.
+
+#~~ ══════════════════════════════════════════════════════════════════════════════════════════
+Format_for_Publication:
+  name: Format for Publication
+  goal: >
+    To format the final research report in the best possible way for publication, ensuring it is organized, clear, and visually appealing.
+  description: >
+    The task involves formatting the final research report to ensure it is presented in the best possible way. This includes organizing the content clearly, using appropriate headings and sections, and incorporating visual elements such as charts, graphs, and images to enhance readability and understanding. The Publisher must ensure that the report adheres to all specified formatting guidelines and is free of grammatical, spelling, and formatting errors. The goal is to produce a polished, professional, and visually appealing document that is ready for dissemination to the intended audience.    
+  expected_output: >
+    A well-organized and professionally formatted Markdown file that presents the research findings clearly and efficiently. The report should be easy to read and navigate, with appropriate use of headings, lists, and other Markdown formatting features.
+
+    This MUST be saved as a file.
+
+    The report must must be in the following markdown format.  
+    Items in parentheses ()are to be replace with the correct values.
+    Items in square brackets [] are instructions.
+    
+
+    # (Title of Report)
+    
+    ### (OPINION PIECE of where and how those concepts will be expressed in the near futre, in society, economics, culture, or any other area that applies.)
+
+    [repeat this format for ever item]
+
+    - ### (headline of item 1)
+
+    ###### (name of source) - (title of webpage hyperlinked to the source) - (date)
+    
+    > (summary of item 1)
+
+
+
+#~~ ══════════════════════════════════════════════════════════════════════════════════════════
+Prediction:
+  name: Prediction
+  goal: >
+    To consume and combine all the content from each of the links provided by Review Research and find the dominant concepts and attempt to predicthopw those concept will be expressed in teh near futre, in society, economics, culture, or any other area that applies. 
+    
+  description: >
+    The task involves comprehending the information on the websites and extracting from then the most dominant themes and, ideas and concepts.  You will search teh internet to doscover how these concepts and thems have changed over time by researching their history as well as their current expressions in the media, blogs, chats, etc.
+  expected_output: >
+    A OPINION PIECE of where and how those concepts will be expressed in the near futre, in society, economics, culture, or any other area that applies.
+

@@ -1,33 +1,47 @@
----
-task_1:
-  description: | 
-    Identify the most important point in the news about {topic}.
-    Focus on identifying pros and cons and the overall narrative.
-    Your final report should clearly articulate the key points and arenas of opportunities, and potential risks.
-  expected_output: |
-    A summary of the top 5 news articles found within the date range.
-    Make sure to save the file.
-  verbose: True
+researcher:
+  name: Researcher
+  description: >
+    The task involves gathering the most current and relevant information on the topic of '{topic}'.
+    This includes identifying and summarizing key findings from reputable sources such as academic journals, industry reports, articles, 
+    video sites, universities, research papers, 
+    and independant journalists, and authoritative websites. 
+    The researcher must ensure that the information is accurate, comprehensive. 
+    Once the research is complete, the work product should be sent to the Research Manager for review and further processing.
+  expected_output: >
+    A highly structured markdown file that contains a detailed summary report that covers the main findings on the topic. 
+    This MUST be saved as a file.
 
-task_2:
-  description: | 
-    Compose an insightful article on {topic}.
-    Focus on the key points, write a summary, including any social, cultural, political and econimic and implications.
-    Preserve all source link, including URLs.
-    This article should be easy to understand, engaging, and positive.
-  expected_output: |
-    A summary of the top 5 news articles found within the date range.
-    Make sure to save the file.
-    Your final report will be in Markdown format and will include a title, date range, and a list of key points with link to sources in the following format:
 
-    # title
-    ###### {start_date} - {end_date}
+publisher:
+  name: Publisher
+  description: >
+    The task involves ensuring that the final research report is presented in the best possible, most efficient, and 
+    organized manner. This includes reviewing the report for clarity, formatting the content 
+    appropriately, incorporating visual elements such as charts and images, and ensuring that the file is 
+    well-structured and easy to navigate. 
+  expected_output: > 
+    The final, polished version of the Markdown file ready for dissemination.
+    This MUST be saved as a file.
+    The file MUST follow the following markdown layout:
 
-      - ### key_point
-        summary
-        - links
-      - ### key_point
-        summary
-        - links
- 
-  verbose: True  
+
+    # Title of Report
+
+    - ### headline of item 1
+    > summery of item 1
+
+    ###### _title of webpage_, _Month day, YYYY_ [name of link](website link)  
+
+    - ### headline of item 2
+    > summery of item 2
+
+    ###### _title of webpage_, _Month day, YYYY_ [name of link](website link)  
+
+
+synopsizer:
+  name: Synopsizer
+  description: >
+    Your task involves reading the content of the URLs that are referenced in the final document, and summerizing that content into a short paragraph.
+  expected_output: > 
+    A structured document that briefly describes teh content and koy points of content at the URL.
+    This MUST be saved as a file.

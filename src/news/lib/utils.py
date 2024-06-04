@@ -9,6 +9,53 @@ from dateutil.relativedelta import relativedelta
 from datetime import datetime
 import datetime as fubared_datetime # python's datetime functions are very badly designed (see note in code)
 import yaml
+from colorama import Fore as fg, Back as bg
+
+def tryit(kwargs, arg, default):
+    """assign a vale to var from a kwargs ary, or set to default """
+    try:
+        rs = kwargs[arg]
+    except:
+        rs = default
+    return rs
+
+
+def PERROR(**myargs):
+    msg = tryit(myargs,"msg","")    
+    loc = tryit(myargs,"loc","")    
+    print(fg.BLACK+bg.RED)
+    pprint(msg)
+    pprint(loc)
+    print(bg.RESET+fg.RESET)
+    # input(f"Pausing on PERROR...({loc})")
+    
+def PWARN(msg):
+    print(fg.BLACK+bg.YELLOW,msg,bg.RESET+fg.RESET)
+
+def dTrace(**myargs):
+    from pprint import pprint
+    name = tryit(myargs,"name","")    
+    file = tryit(myargs,"file","")    
+    cname = tryit(myargs,"cname","")    
+    line = tryit(myargs,"line","")    
+    msg = tryit(myargs,"msg","")    
+
+    def decorator(func):
+        def wrapper(*args, **kwargs):
+            print(fg.BLACK+bg.YELLOW,end="")
+            print(f"\nCalling function '{func.__name__}'")
+            print(f"{name}\n{file}\{cname}:{line}\n")                  
+            result = func(*args, **kwargs)
+            print(f">>>>>",result,"<<<<<")
+            print(fg.BLACK+bg.YELLOW+f"Finished calling function '{func.__name__}'"+bg.RESET+fg.RESET)
+            return result
+        return wrapper
+    return decorator
+    
+
+def load_workflow_from_yaml(yaml_file):
+    with open(yaml_file, 'r') as file:
+        return yaml.safe_load(file)
 
 def make_filenames():
     topic_stub=gget('topic')[:10].replace(" ", "-")
@@ -64,11 +111,24 @@ def check_top_level_key(file_path, key):
         print(f"Error reading YAML file: {e}")
         return False
 
+# def make_agent_name(file_path):
+#     try:
+#         with open(file_path, 'r') as file:
+#             role_value = config['agent_1']['role']
+
+#             return 'role' in data
+#     except FileNotFoundError:
+#         print(f"File not found: {file_path}")
+#         return False
+#     except yaml.YAMLError as e:
+#         print(f"Error reading YAML file: {e}")
+#         return False
+
 
 def get_llm(**kwargs):
     temperature = tryit(kwargs,"temperature",0.3)
     from langchain_openai import ChatOpenAI as OpenAI
-
+    print(">>> llm >>>",is_verbose(gget("verbose")))
     llm_server = OpenAI(
         openai_api_base=gget("LIVE_API_BASE_URL"),
         openai_api_key=gget("LIVE_API_KEY"),
@@ -100,13 +160,6 @@ def test_prefix(substring):
             return True
     return False
  
-def tryit(kwargs, arg, default):
-    """assign a vale to var from a kwargs ary, or set to default """
-    try:
-        rs = kwargs[arg]
-    except:
-        rs = default
-    return rs
 
 def mkdir(directory_path):
     """
@@ -160,7 +213,7 @@ def printstats(stage):
     │      LIVE_API_BASE_URL: {gget("LIVE_API_BASE_URL")}
     │        LIVE_MODEL_NAME: {gget("LIVE_MODEL_NAME")}
     │                  Topic: |{gget("topic")}|
-    │              InoutFile: |{gget("inputfile")}|
+    │              InputFile: |{gget("inputfile")}|
     │                Seacher: {gget("searcher")}
     │                Verbose: {gget("verbose")}/{is_verbose(gget("verbose"))}
     │                 Memory: {gget("memory")}
@@ -190,7 +243,7 @@ def printstats(stage):
     
 def is_verbose(verbose):
     """The function `is_verbose` checks if a given value `verbose` is equal to 0 and returns True if it is not."""
-    if verbose == 0:
+    if int(verbose) == 0:
         return False
     else:
         return True

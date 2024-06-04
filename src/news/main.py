@@ -15,6 +15,7 @@ from src.news.lib.utils import (
     showhelp,
     printstats,
     test_prefix,
+    make_filenames,
 )
 from src.news.lib.setserver import set_server
 # needs internet
@@ -40,6 +41,8 @@ gput("topic",               "Bitcoin")
 gput("filecounter",         "000") 
 gput("task_1_outputfile",   "undefined")
 gput("agent_1_outputfile",  "undefined")
+gput("task_2_outputfile",   "undefined")
+gput("agent_2_outputfile",  "undefined")
 
 
 #~~ Parse command-line arguments provided
@@ -89,7 +92,8 @@ agents_yaml = f"{gget('prefix')}_agents.yaml"
 tasks_yaml = f"{gget('prefix')}_tasks.yaml"
 gput("agents_yaml", agents_yaml)
 gput("tasks_yaml", tasks_yaml)
-
+#~~ create filenames agents and tasks to save to
+gput("report_subdir", make_filenames()+"/"+gget('COUNTER')+"/"+gget('searcher'))
 
 # If there IS a specified inputfile AND no topic specified, make the topic the name inputfile name
 if gget("inputfile") != "None" and (gget("topic") == "None" or gget("topic") == ""): 
@@ -110,8 +114,28 @@ def run():
         "end_date": end_date,
     }
     start_timer = time.time()
-    AnewsCrew().crew().kickoff(inputs=inputs)
+    news_crew_instance = AnewsCrew()
+    
+    news_crew_instance.crew().kickoff(inputs=inputs)
     gput("runtime", int(time.time() - start_timer))
     printstats("after")    
+    
+
+    """
+Action:
+Delegate work to coworker
+Action Input:
+{
+    "task": "Review and annotate the research report on 'The rise in Dengue' to ensure accuracy, completeness, and quality. Provide detailed feedback and suggestions for improvement.",
+    "coworker": "Gather the most relevant information on the subject of 'The rise in Dengue' using various sources available on the internet."
+} 
 
 
+Error executing tool. coworker mentioned not found, it must to be one of the following options:
+- gather the most relevant information on the subject of 'the rise in denge' using various sources available on the internet.
+
+- format the final research report in the best possible way for publication, ensuring it is organized, clear, and visually appealing.
+    
+    
+    
+    """

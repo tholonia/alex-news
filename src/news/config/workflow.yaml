@@ -1,0 +1,15 @@
+workflow:
+  steps:
+    - agent: Researcher
+      task: Research Information
+      output: research_report
+
+    - agent: Research Manager
+      task: Review Research
+      input: research_report
+      output: reviewed_report
+
+    - agent: Publisher
+      task: Format for Publication
+      input: reviewed_report
+      output: final_publication
